@@ -1,0 +1,1136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yuvan T | Aerospace Engineer, FEA &amp; CFD Portfolio</title>
+<meta name="description" content="Yuvan T, aerospace engineer: finite element analysis, structural optimisation and CFD. Internships at ISRO (VSSC) and DRDO (CABS). GATE 2026 Aerospace AIR 785.">
+<meta name="author" content="Yuvan T">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Yuvan T | Aerospace Engineer, FEA &amp; CFD">
+<meta property="og:description" content="Yuvan T, aerospace engineer: finite element analysis, structural optimisation and CFD. Internships at ISRO (VSSC) and DRDO (CABS). GATE 2026 Aerospace AIR 785.">
+<!-- STEP 7 of the guide: paste your Google Search Console verification tag on the line below -->
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Cpath d='M2 24 L13 2 L24 24 Z' fill='none' stroke='%23121b24' stroke-width='2'/%3E%3Ccircle cx='13' cy='2' r='2.4' fill='%23dd3f11'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Yuvan T","jobTitle":"Aerospace Engineer","alumniOf":"Karunya Institute of Technology and Sciences","knowsAbout":["Finite Element Analysis","Computational Fluid Dynamics","Structural Optimisation","ANSYS","Composite Structures"]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>
+/* Layout: an FEA post-processor. Sticky solver header; hero = live solve of a plate with a hole (mesh -> residuals -> load ramp),
+   while the name itself stretches under the same uniaxial load. Results panels sit on a faint mesh grid.
+   Colour: steel neutrals in OKLCH (hue 258, very low chroma) + one perceptually ordered result map (Turbo, ends trimmed)
+   used for every contour, legend and accent line. Semantic hot/ok are kept separate from the map. */
+:root{
+  --bg:oklch(0.965 0.005 255);
+  --panel:oklch(0.993 0.002 255);
+  --sunk:oklch(0.945 0.007 255);
+  --line:oklch(0.885 0.011 255);
+  --line-strong:oklch(0.77 0.016 255);
+  --fg:oklch(0.22 0.025 258);
+  --muted:oklch(0.50 0.022 258);
+  --accent:oklch(0.52 0.17 262);
+  --accent-soft:oklch(0.52 0.17 262 / .10);
+  --hot:oklch(0.60 0.20 34);
+  --ok:oklch(0.60 0.15 152);
+  --grid:oklch(0.45 0.05 255 / .055);
+  --shadow:0 1px 0 oklch(0.2 0.03 258 / .04),0 18px 40px -24px oklch(0.2 0.04 258 / .35);
+  --shadow-lift:0 1px 0 oklch(0.2 0.03 258 / .04),0 30px 54px -26px oklch(0.2 0.04 258 / .5);
+  --spectrum:linear-gradient(90deg,#4a43ba,#3c80f8,#27b8e5,#2de3b1,#56fb7a,#96fa50,#d7e235,#ffb526,#ff7a1c,#dd3f11,#a51403);
+  --spectrum-v:linear-gradient(180deg,#a51403,#dd3f11,#ff7a1c,#ffb526,#d7e235,#96fa50,#56fb7a,#2de3b1,#27b8e5,#3c80f8,#4a43ba);
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --load:1;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:oklch(0.165 0.014 258);--panel:oklch(0.205 0.017 258);--sunk:oklch(0.185 0.015 258);--line:oklch(0.30 0.02 258);--line-strong:oklch(0.42 0.025 258);
+  --fg:oklch(0.945 0.007 255);--muted:oklch(0.71 0.02 255);--accent:oklch(0.75 0.13 258);--accent-soft:oklch(0.75 0.13 258 / .12);
+  --hot:oklch(0.72 0.17 36);--ok:oklch(0.76 0.15 152);--grid:oklch(0.8 0.04 255 / .045);
+  --shadow:0 1px 0 oklch(0 0 0 / .3),0 22px 48px -24px oklch(0 0 0 / .7);--shadow-lift:0 1px 0 oklch(0 0 0 / .3),0 32px 60px -24px oklch(0 0 0 / .85);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:oklch(0.165 0.014 258);--panel:oklch(0.205 0.017 258);--sunk:oklch(0.185 0.015 258);--line:oklch(0.30 0.02 258);--line-strong:oklch(0.42 0.025 258);
+  --fg:oklch(0.945 0.007 255);--muted:oklch(0.71 0.02 255);--accent:oklch(0.75 0.13 258);--accent-soft:oklch(0.75 0.13 258 / .12);
+  --hot:oklch(0.72 0.17 36);--ok:oklch(0.76 0.15 152);--grid:oklch(0.8 0.04 255 / .045);
+  --shadow:0 1px 0 oklch(0 0 0 / .3),0 22px 48px -24px oklch(0 0 0 / .7);--shadow-lift:0 1px 0 oklch(0 0 0 / .3),0 32px 60px -24px oklch(0 0 0 / .85);color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15.5px;line-height:1.62;-webkit-font-smoothing:antialiased;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--panel)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+::selection{background:var(--accent);color:var(--panel)}
+.gut{padding-left:max(clamp(16px,3vw,48px),env(safe-area-inset-left,0px));padding-right:max(clamp(16px,3vw,48px),env(safe-area-inset-right,0px))}
+
+/* ---------- header ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in oklch,var(--panel) 86%,transparent);
+  backdrop-filter:saturate(1.3) blur(12px);-webkit-backdrop-filter:saturate(1.3) blur(12px);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:center;gap:20px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none}
+.brand svg{width:26px;height:26px;display:block}
+.brand b{font-family:var(--f-display);font-stretch:72%;font-size:23px;font-weight:800;letter-spacing:.01em;text-transform:uppercase;line-height:1}
+.brand span{font-family:var(--f-mono);font-size:10.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-left:1px solid var(--line);padding-left:10px}
+.nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none;min-width:0}
+.nav::-webkit-scrollbar{display:none}
+.nav a{font-family:var(--f-mono);font-size:12.5px;text-decoration:none;color:var(--muted);padding:7px 12px;white-space:nowrap;position:relative;transition:color .2s}
+.nav a:hover{color:var(--fg)}
+.nav a::after{content:"";position:absolute;left:12px;right:12px;bottom:-13px;height:2px;background:var(--spectrum);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.nav a.on{color:var(--fg)}.nav a.on::after,.nav a:hover::after{transform:scaleX(1)}
+.cta{flex:none;font-family:var(--f-mono);font-size:12.5px;text-decoration:none;color:var(--panel);background:var(--fg);padding:8px 14px;transition:background .2s}
+.cta:hover{background:var(--accent)}
+.progress{position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:var(--spectrum);transform-origin:left;transform:scaleX(var(--p,0))}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.5fr);gap:clamp(20px,3vw,40px);padding-block:clamp(28px,4vw,56px) clamp(32px,4vw,56px);align-items:stretch}
+.id{display:flex;flex-direction:column;gap:clamp(14px,2.4svh,22px);min-width:0;padding-top:6px}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:11.5px;color:var(--muted);letter-spacing:.04em}
+.status i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px color-mix(in oklch,var(--ok) 22%,transparent)}
+h1{margin:0;font-family:var(--f-display);font-weight:800;text-transform:uppercase;line-height:.8;letter-spacing:-.01em;
+  font-size:clamp(72px,min(10vw,15svh),176px);font-stretch:calc(62% + 14% * var(--load))}
+h1 span{display:block;white-space:nowrap}
+h1 .t{display:inline-block;background:var(--spectrum-v);-webkit-background-clip:text;background-clip:text;color:transparent}
+.strain{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-top:-6px}
+.strain .bar{flex:1;min-width:40px;max-width:160px;height:1px;background:var(--line-strong);position:relative}
+.strain .bar::before,.strain .bar::after{content:"";position:absolute;top:-4px;height:9px;border-left:1px solid var(--line-strong)}
+.strain .bar::before{left:0}.strain .bar::after{right:0}
+.strain b{color:var(--fg);font-weight:500;font-variant-numeric:tabular-nums}
+.role-line{margin:0;font-family:var(--f-display);font-stretch:80%;font-size:clamp(22px,2.1vw,30px);font-weight:600;line-height:1.1;text-transform:uppercase;color:var(--muted)}
+.role-line b{color:var(--fg);font-weight:700}
+.lede{margin:0;max-width:50ch;font-size:clamp(15.5px,1.12vw,17.5px)}
+.contact{display:flex;flex-direction:column;gap:8px}
+.cline{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--f-mono);font-size:13px}
+.cline .k{color:var(--muted);width:52px;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.cline .v{user-select:all;overflow-wrap:anywhere}
+.copy{font:inherit;font-size:11px;color:var(--accent);background:transparent;border:1px solid var(--line);padding:2px 9px;cursor:pointer;transition:border-color .2s,background .2s}
+.copy:hover{border-color:var(--accent);background:var(--accent-soft)}
+
+.results{margin-top:auto;border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow)}
+.rh{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border-bottom:1px solid var(--line);background:var(--sunk)}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.kpis div{padding:14px 14px 12px;border-right:1px solid var(--line);min-width:0}
+.kpis div:last-child{border-right:0}
+.kpis b{display:block;font-family:var(--f-display);font-stretch:72%;font-size:clamp(36px,3.2vw,48px);line-height:1;font-weight:700;font-variant-numeric:tabular-nums}
+.kpis span{display:block;margin-top:6px;font-family:var(--f-mono);font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;line-height:1.35}
+
+/* viewport */
+.viewport{border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow);display:flex;flex-direction:column;min-width:0}
+.vh{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-family:var(--f-mono);font-size:11.5px;color:var(--muted);padding:9px 14px;border-bottom:1px solid var(--line);background:var(--sunk)}
+.vh b{color:var(--fg);font-weight:500;font-variant-numeric:tabular-nums}
+.seg{display:inline-flex;border:1px solid var(--line);background:var(--panel)}
+.seg button{font:inherit;font-size:11.5px;color:var(--muted);background:none;border:0;padding:4px 10px;cursor:pointer;border-right:1px solid var(--line);transition:color .2s,background .2s}
+.seg button:last-child{border-right:0}
+.seg button:hover{color:var(--fg)}
+.seg button[aria-pressed="true"]{color:var(--panel);background:var(--fg)}
+.vh .sp{margin-left:auto;display:flex;align-items:center;gap:10px}
+.solver{display:flex;align-items:center;gap:8px}
+.solver canvas{width:96px;height:22px;display:block}
+.pill{font-family:var(--f-mono);font-size:10.5px;padding:1px 8px;border:1px solid var(--line);color:var(--muted);white-space:nowrap;min-width:92px;text-align:center}
+.pill.ok{color:var(--ok);border-color:color-mix(in oklch,var(--ok) 45%,transparent)}
+.pill.run{color:var(--accent);border-color:color-mix(in oklch,var(--accent) 45%,transparent)}
+.vb{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 16px;padding:16px;flex:1;align-items:center}
+.legend{display:flex;flex-direction:column;font-family:var(--f-mono);font-size:10.5px;font-variant-numeric:tabular-nums;align-self:start;min-width:100px}
+.legend .t{color:var(--muted);font-size:10px;margin-bottom:8px;line-height:1.4}
+.legend .t b{color:var(--fg);font-weight:500;display:block}
+.legend .row{display:flex;align-items:center;gap:7px;height:24px}
+.legend .sw{width:16px;height:24px;flex:none}
+.stage{position:relative;min-width:0}
+canvas.plot{width:100%;height:auto;aspect-ratio:5/3;display:block;cursor:crosshair;touch-action:pan-y}
+.probe{position:absolute;pointer-events:none;font-family:var(--f-mono);font-size:11px;background:var(--fg);color:var(--panel);padding:4px 8px;white-space:nowrap;transform:translate(14px,-125%)}
+.probe::before{content:"";position:absolute;left:-14px;bottom:-7px;width:9px;height:9px;border:2px solid var(--fg);border-radius:50%}
+.vf{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;font-family:var(--f-mono);font-size:10.5px;color:var(--muted);padding:9px 16px;border-top:1px solid var(--line)}
+.linkbtn{font:inherit;color:var(--accent);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+
+/* ---------- sections ---------- */
+main{display:flex;flex-direction:column;gap:clamp(48px,6vw,88px);padding-block:clamp(24px,3vw,40px) clamp(56px,6vw,96px)}
+section{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 80px);min-width:0}
+.sh{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:12px 24px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--line-strong);position:relative}
+.sh::after{content:"";position:absolute;left:0;bottom:-1px;width:88px;height:3px;background:var(--spectrum);transform-origin:left}
+.sh.play::after{animation:scan 1.1s var(--ease)}
+@keyframes scan{0%{transform:scaleX(0)}55%{transform:scaleX(4)}100%{transform:scaleX(1)}}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+h2{margin:0;font-family:var(--f-display);font-stretch:66%;font-weight:800;font-size:clamp(44px,5vw,72px);line-height:.88;text-transform:uppercase;letter-spacing:-.005em;text-wrap:balance}
+.sh .meta{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);text-align:right;line-height:1.5}
+.panel{border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow);min-width:0}
+h3{font-family:var(--f-body);font-size:18px;font-weight:600;line-height:1.3;margin:0;text-wrap:balance}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{font-family:var(--f-mono);font-size:11px;color:var(--muted);background:var(--sunk);border:1px solid var(--line);padding:1px 8px}
+.typ{font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+
+/* experience: one load history for internships, education, awards and volunteering */
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes growy{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.xg{padding:18px 20px 14px;border-bottom:1px solid var(--line)}
+.xg-head{display:flex;justify-content:space-between;gap:6px 12px;flex-wrap:wrap;font-family:var(--f-mono);font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+.xg-grid{display:grid;grid-template-columns:130px minmax(0,1fr);row-gap:8px;column-gap:14px;align-items:center}
+.xg-l{font-family:var(--f-mono);font-size:11.5px;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:opacity .3s}
+.xg-l i,.xf-b i,.x-chip i{width:9px;height:9px;flex:none;box-shadow:inset 0 0 0 1px oklch(0 0 0 / .18)}
+.xg-t{position:relative;height:calc(var(--rows) * 20px + 6px);background:repeating-linear-gradient(90deg,var(--sunk) 0 calc(20% - 1px),var(--line) calc(20% - 1px) 20%);transition:opacity .3s}
+.dim{opacity:.22}
+.xg-b{position:absolute;height:14px;border:0;padding:0;cursor:pointer;transform-origin:left;transition:box-shadow .2s}
+.xg.play .xg-b{animation:grow .9s var(--ease) both}
+.xg-b.xg-open{clip-path:polygon(7px 0,100% 0,100% 100%,7px 100%,0 50%)}
+.xg-b:hover,.xg-b.hl,.xg-b:focus-visible{box-shadow:0 0 0 2px var(--fg);outline:0}
+.xg-b span{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);font-family:var(--f-mono);font-size:10.5px;white-space:nowrap;background:var(--fg);color:var(--panel);padding:2px 7px;opacity:0;pointer-events:none;transition:opacity .15s;z-index:3}
+.xg-b:hover span,.xg-b.hl span,.xg-b:focus-visible span{opacity:1}
+.xg-b{box-shadow:inset -2px 0 0 var(--panel)}
+.xg-b.xg-in span{position:absolute;inset:0;left:10px;transform:none;bottom:auto;opacity:1;background:none;padding:0;font-size:10px;line-height:14px;overflow:hidden;text-overflow:ellipsis;color:#fff}
+.xg-b.xg-in[data-cat="vol"] span{color:#06231b}
+.xg-b.xg-in:hover,.xg-b.xg-in.hl{box-shadow:0 0 0 2px var(--fg)}
+.xg-m{position:absolute;top:50%;width:18px;height:18px;transform:translate(-50%,-50%);border:0;padding:0;background:none;cursor:pointer}
+.xg-m::before{content:"";position:absolute;inset:3px;background:#d7e235;transform:rotate(45deg);box-shadow:0 0 0 1px oklch(0 0 0 / .3);transition:transform .25s var(--ease)}
+.xg-m:hover::before,.xg-m.hl::before{transform:rotate(45deg) scale(1.35)}
+.xg-m span{position:absolute;right:calc(100% + 4px);top:50%;transform:translateY(-50%);font-family:var(--f-mono);font-size:10.5px;color:var(--muted);white-space:nowrap}
+.xg-axis{position:relative;height:18px;margin-top:4px;font-family:var(--f-mono);font-size:10.5px;color:var(--muted)}
+.xg-axis span{position:absolute;top:0;transform:translateX(-50%)}
+.xg-axis span:first-child{transform:none}
+.xg-note{margin:10px 0 0;font-family:var(--f-mono);font-size:10.5px;color:var(--muted)}
+.xf{display:flex;flex-wrap:wrap;gap:8px;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--sunk)}
+.xf-b{font-family:var(--f-mono);font-size:12px;display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.xf-b:hover{border-color:var(--line-strong)}
+.xf-b b{font-weight:500;color:var(--muted);font-variant-numeric:tabular-nums}
+.xf-b[aria-pressed="true"]{background:var(--fg);color:var(--panel);border-color:var(--fg)}
+.xf-b[aria-pressed="true"] b{color:inherit;opacity:.7}
+.xl{list-style:none;margin:0;padding:10px 20px 22px;position:relative}
+.xl::before{content:"";position:absolute;left:32px;top:24px;bottom:34px;width:2px;background:var(--spectrum-v);opacity:.55;transform-origin:top}
+.xl.play::before{animation:growy 1.4s var(--ease) both}
+.x{position:relative;padding-left:38px;margin-top:10px}
+.x::before{content:"";position:absolute;left:5px;top:20px;width:14px;height:14px;border-radius:50%;background:var(--c);border:3px solid var(--panel);box-shadow:0 0 0 1px var(--line-strong);transition:transform .3s var(--ease)}
+.x:hover::before,.x.hl::before,.x.open::before{transform:scale(1.25)}
+.x.in{animation:xin .45s var(--ease) both}
+@keyframes xin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.x-h{width:100%;text-align:left;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"chip date" "t ic" "o ic" "s ic";gap:2px 16px;padding:14px 16px;border:1px solid var(--line);background:var(--panel);color:inherit;font:inherit;cursor:pointer;transition:border-color .2s,box-shadow .3s,transform .3s var(--ease)}
+.x-h:hover{border-color:var(--line-strong);transform:translateX(3px)}
+.x.hl .x-h{box-shadow:0 0 0 2px color-mix(in oklch,var(--c) 70%,transparent)}
+.x.flash .x-h{animation:flash 1.2s ease-out}
+@keyframes flash{0%{box-shadow:0 0 0 6px color-mix(in oklch,var(--c) 70%,transparent)}100%{box-shadow:0 0 0 0 transparent}}
+.x-chip{grid-area:chip;display:inline-flex;align-items:center;gap:7px;font-family:var(--f-mono);font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.x-chip i{background:var(--c)}
+.x-date{grid-area:date;font-family:var(--f-mono);font-size:11.5px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.x-t{grid-area:t;font-weight:600;font-size:16.5px;line-height:1.3;margin-top:4px}
+.x-o{grid-area:o;color:var(--muted);font-size:14px}
+.x-s{grid-area:s;font-size:14px;margin-top:2px}
+.x-ic{grid-area:ic;align-self:center;width:18px;height:18px;color:var(--muted);transition:transform .3s var(--ease)}
+.x-h[aria-expanded="true"] .x-ic{transform:rotate(180deg)}
+.x-d{display:grid;grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows .4s var(--ease),visibility 0s .4s}
+.x-d>div{overflow:hidden;min-height:0}
+.x.open .x-d{grid-template-rows:1fr;visibility:visible;transition:grid-template-rows .4s var(--ease)}
+.x-in{display:flex;gap:22px;align-items:flex-start;padding:16px;border:1px solid var(--line);border-top:0;background:var(--sunk)}
+.x-in>div{min-width:0}
+.x-in p{margin:0;max-width:64ch}
+.x-ul{margin:0;padding-left:18px}
+.x-big{font-family:var(--f-display);font-stretch:66%;font-weight:800;font-size:58px;line-height:.85;flex:none;font-variant-numeric:tabular-nums;color:var(--fg)}
+.x-big small{font-size:.3em;color:var(--muted);font-weight:600;margin-left:4px;letter-spacing:.04em}
+.x-big small.pre{margin:0 6px 0 0;vertical-align:1em}
+.x-proj{margin-top:12px;font-family:var(--f-mono);font-size:12px;color:var(--accent);background:none;border:1px solid color-mix(in oklch,var(--accent) 45%,transparent);padding:7px 11px;cursor:pointer;transition:background .2s}
+.x-proj:hover{background:var(--accent-soft)}
+
+/* projects */
+.proj{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,1.6vw,22px)}
+.card{display:flex;flex-direction:column;min-width:0;cursor:pointer;transition:transform .35s var(--ease),border-color .25s,box-shadow .35s}
+.card:hover,.card:focus-visible{transform:translateY(-4px);border-color:var(--line-strong);box-shadow:var(--shadow-lift)}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.thumb{position:relative;border-bottom:1px solid var(--line);background:var(--sunk);overflow:hidden}
+.thumb canvas{width:100%;height:auto;aspect-ratio:16/9;display:block}
+.cap{position:absolute;left:10px;top:10px;font-family:var(--f-mono);font-size:10px;color:var(--fg);background:color-mix(in oklch,var(--panel) 86%,transparent);padding:2px 7px;letter-spacing:.04em}
+.live{position:absolute;right:10px;top:10px;font-family:var(--f-mono);font-size:10px;color:var(--panel);background:var(--fg);padding:2px 7px;opacity:0;transform:translateY(-4px);transition:opacity .2s,transform .25s var(--ease)}
+.card:hover .live,.card:focus-visible .live{opacity:1;transform:none}
+.cb{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card p{margin:0;font-size:14.5px}
+.card .tags{margin-top:auto;padding-top:6px}
+.more{display:flex;align-items:center;justify-content:space-between;gap:8px;font-family:var(--f-mono);font-size:12px;color:var(--accent);border-top:1px solid var(--line);padding:11px 20px}
+.more svg{width:16px;height:16px;transition:transform .3s var(--ease)}
+.card:hover .more svg{transform:translateX(4px)}
+
+/* education */
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:560px}
+thead th{font-family:var(--f-mono);font-size:10.5px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;text-align:left;padding:10px 20px;background:var(--sunk);border-bottom:1px solid var(--line)}
+tbody td{padding:16px 20px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr{transition:background .2s}
+tbody tr:hover{background:var(--sunk)}
+tbody tr:last-child td{border-bottom:0}
+td.q{font-weight:600}
+td.q small{display:block;font-weight:400;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.score{font-family:var(--f-display);font-stretch:72%;font-size:28px;font-weight:700;line-height:1;white-space:nowrap;font-variant-numeric:tabular-nums}
+td.score small{font-family:var(--f-mono);font-size:10.5px;color:var(--muted);font-weight:400;margin-left:4px}
+tr.lead,tr.lead:hover{background:var(--accent-soft)}
+
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.sk{padding:20px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:12px;min-width:0}
+.sk:last-child{border-right:0}
+.sk h4{margin:0;font-family:var(--f-mono);font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+.tools{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.tools li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14.5px;transition:padding .25s var(--ease),color .2s}
+.tools li:hover{padding-left:6px;color:var(--accent)}
+.tools li:last-child{border-bottom:0}
+.tools li span{font-family:var(--f-mono);font-size:10.5px;color:var(--muted);white-space:nowrap}
+.lang{display:grid;grid-template-columns:70px minmax(0,1fr);gap:4px 12px;align-items:center;font-size:14.5px}
+.lang small{grid-column:2;font-family:var(--f-mono);font-size:10.5px;color:var(--muted);margin-top:-2px}
+.meter{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;height:8px}
+.meter i{background:var(--line)}
+.meter i.f{background:var(--accent)}
+
+/* achievements */
+.ach{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1fr) minmax(0,1fr);gap:clamp(14px,1.6vw,22px)}
+.gate{padding:22px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
+.gate::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--spectrum);transform-origin:left}
+.gate.play::before{animation:grow 1s var(--ease)}
+.gate .big{font-family:var(--f-display);font-stretch:66%;font-size:clamp(84px,8vw,124px);font-weight:800;line-height:.82;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.gate .big small{font-size:.3em;font-weight:600;color:var(--muted);letter-spacing:.04em;margin-right:8px;vertical-align:1em}
+.gate p{margin:6px 0 0;color:var(--muted);font-size:14px}
+.lst{padding:20px}
+.lst h4{margin:0 0 12px;font-family:var(--f-mono);font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+.lst ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.lst li{padding:10px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;font-size:14.5px}
+.lst li:first-child{border-top:0;padding-top:0}
+.lst li span{font-family:var(--f-mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.lst li em{font-style:normal;display:block;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+
+/* contact */
+.contactband{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px;align-items:center;padding:clamp(24px,3vw,44px);position:relative;overflow:hidden}
+.beam{grid-column:1/-1;position:relative;margin:6px calc(-1 * clamp(24px,3vw,44px)) calc(-1 * clamp(24px,3vw,44px));border-top:1px solid var(--line);background:var(--sunk)}
+.beam canvas{display:block;width:100%;height:190px}
+.beam .cap{position:static;display:block;background:none;padding:0 14px 12px;color:var(--muted)}
+.contactband>div{position:relative}
+.contactband h2{font-size:clamp(48px,5.6vw,84px)}
+.contactband p{margin:12px 0 0;color:var(--muted);max-width:46ch}
+.contactband .contact{background:color-mix(in oklch,var(--panel) 88%,transparent);border:1px solid var(--line);padding:16px;gap:12px}
+.contactband .cline{font-size:clamp(13px,1.15vw,15.5px)}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--f-mono);font-size:11px;color:var(--muted);padding-block:16px 28px;border-top:1px solid var(--line)}
+
+/* summary dialog */
+dialog.sum{width:min(1000px,calc(100vw - 32px));max-height:calc(100svh - 32px);padding:0;border:1px solid var(--line-strong);background:var(--panel);color:var(--fg);box-shadow:0 40px 90px -30px oklch(0 0 0 / .6);overflow:auto}
+dialog.sum::backdrop{background:oklch(0.15 0.02 258 / .6);backdrop-filter:blur(4px)}
+dialog.sum[open]{animation:pop .3s var(--ease)}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.sum-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:12px;font-family:var(--f-mono);font-size:11.5px;color:var(--muted);padding:10px 16px;background:var(--sunk);border-bottom:1px solid var(--line)}
+.sum-bar b{color:var(--fg);font-weight:500}
+.sum-nav{margin-left:auto;display:flex;gap:6px}
+.sum-nav button{font:inherit;font-size:12px;color:var(--fg);background:var(--panel);border:1px solid var(--line);padding:4px 10px;cursor:pointer}
+.sum-nav button:hover{border-color:var(--accent);color:var(--accent)}
+.sum-vis{position:relative;border-bottom:1px solid var(--line);background:var(--sunk)}
+.sum-vis canvas{width:100%;height:auto;aspect-ratio:16/7;display:block}
+.sum-vis .cap{top:auto;bottom:10px;left:12px}
+.sum-scale{position:absolute;right:12px;bottom:22px;width:160px;height:8px;background:var(--spectrum)}
+.sum-scale::before,.sum-scale::after{position:absolute;top:10px;font-family:var(--f-mono);font-size:10px;color:var(--fg)}
+.sum-scale::before{content:"Low";left:0}.sum-scale::after{content:"High";right:0}
+.sum-body{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
+.sum-main{padding:24px 26px 28px;display:flex;flex-direction:column;gap:16px;border-right:1px solid var(--line);min-width:0}
+.sum-main h3{font-family:var(--f-display);font-stretch:68%;font-size:clamp(30px,3.6vw,44px);font-weight:800;line-height:.92;text-transform:uppercase}
+.sum-main p{margin:0;max-width:62ch}
+.sum-main h4,.sum-side h4{margin:0 0 6px;font-family:var(--f-mono);font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+.sum-main ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.sum-main li{display:grid;grid-template-columns:14px minmax(0,1fr);gap:8px}
+.sum-main li::before{content:"";width:7px;height:7px;margin-top:9px;border:1.5px solid var(--accent);transform:rotate(45deg)}
+.sum-side{padding:24px 22px;display:flex;flex-direction:column;gap:18px;background:var(--sunk);min-width:0}
+.sum-side dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);border:1px solid var(--line);background:var(--panel)}
+.sum-side dt,.sum-side dd{margin:0;padding:8px 12px;border-bottom:1px solid var(--line);font-size:13.5px}
+.sum-side dt{font-family:var(--f-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-right:1px solid var(--line);white-space:nowrap}
+.sum-side dl>*:nth-last-child(-n+2){border-bottom:0}
+.sum-side .note{font-size:13px;color:var(--muted);margin:0}
+
+@media (max-width:1100px){
+  .skills{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sk:nth-child(2){border-right:0}.sk:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .ach{grid-template-columns:1fr 1fr}.gate{grid-column:1/-1}
+}
+@media (max-width:940px){
+  .hero{grid-template-columns:1fr}
+  .proj{grid-template-columns:1fr}
+  .step{grid-template-columns:1fr;gap:10px}
+  .sn{display:flex;align-items:baseline;gap:12px;font-size:44px}
+  .sn small{margin-top:0}
+  .hero .viewport{order:0}
+  .brand span{display:none}
+  .contactband{grid-template-columns:1fr}
+  .sum-body{grid-template-columns:1fr}.sum-main{border-right:0;border-bottom:1px solid var(--line)}
+}
+@media (max-width:640px){
+  .top-in{height:auto;flex-wrap:wrap;padding-block:10px 0;gap:8px 12px}
+  .nav{order:3;width:100%;margin:0 -8px;padding-bottom:6px}
+  .nav a::after{bottom:-1px}
+  .cta{margin-left:auto}
+  h1{font-size:clamp(64px,22vw,120px)}
+  .nav{-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .nav a{padding:8px 10px}
+  .cline{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:8px;font-size:12px}
+  .cline .k{width:auto}
+  .copy{padding:5px 10px}
+  .seg button{padding:7px 11px}
+  .kpis div{padding:12px 10px 10px}
+  .kpis span{font-size:9.5px}
+  .contactband h2{font-size:clamp(40px,11vw,60px)}
+  .contactband .contact{padding:12px}
+  .xg,.xf{padding-left:12px;padding-right:12px}
+  .xg-grid{grid-template-columns:86px minmax(0,1fr);column-gap:8px}
+  .xg-l{font-size:10px;white-space:normal;line-height:1.2}
+  .xg-hint{display:none}
+  .xl{padding:6px 12px 18px}
+  .xl::before{left:24px}
+  .x{padding-left:32px}
+  .x-h{padding:12px}
+  .x-in{flex-direction:column;gap:10px}
+  .x-big{font-size:46px}
+  .xf-b{padding:7px 10px;font-size:11.5px}
+  .beam canvas{height:170px}
+  .xg-b.xg-in span{font-size:9px;left:6px}
+  table{min-width:0}
+  thead{display:none}
+  tbody tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;padding:16px;border-bottom:1px solid var(--line)}
+  tbody tr:last-child{border-bottom:0}
+  tbody td{padding:0;border:0}
+  td.q{grid-column:1;grid-row:1}
+  td.score{grid-column:2;grid-row:1/3;align-self:center;font-size:34px}
+  tbody td:nth-child(2){grid-column:1;font-size:14px;color:var(--muted)}
+  td.n{grid-column:1;font-size:12px;color:var(--muted)}
+  .grows{grid-template-columns:96px minmax(0,1fr)}
+  .vb{grid-template-columns:1fr}
+  .vh .sp{margin-left:0}
+  .legend{flex-direction:row;flex-wrap:wrap;align-self:stretch;min-width:0}
+  .legend .t{width:100%}
+  .legend .row{flex-direction:column;height:auto;gap:3px;flex:1}
+  .legend .sw{width:100%;height:10px}
+  .legend .row span:last-child{font-size:8.5px}
+  .skills{grid-template-columns:1fr}
+  .sk{border-right:0;border-bottom:1px solid var(--line)}.sk:last-child{border-bottom:0}
+  .ach{grid-template-columns:1fr}
+  .sh{grid-template-columns:1fr}.sh .meta{text-align:left}
+  .sum-vis canvas{aspect-ratio:16/9}.sum-bar .lbl{display:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in gut">
+    <a class="brand" href="#top" aria-label="Yuvan T, back to top">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><path d="M2 24 L13 2 L24 24 Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 13 L18.5 13 M13 2 L7.5 24 M13 2 L18.5 24 M7.5 13 L13 24 L18.5 13" fill="none" stroke="currentColor" stroke-width=".9" opacity=".55"/><circle cx="13" cy="2" r="2.2" fill="#dd3f11"/></svg>
+      <b>Yuvan T</b><span>Structures · CFD</span>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+    </nav>
+    <a class="cta" href="#contact">Contact</a>
+  </div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+</header>
+
+<div id="top" class="hero gut">
+  <div class="id">
+    <div class="status"><i></i>B.Tech Aerospace Engineering · Class of 2026</div>
+    <h1 aria-label="Yuvan T."><span>Yuvan</span><span><span class="t">T.</span></span></h1>
+    <div class="strain" aria-hidden="true"><span>σ<sub>x</sub> = <b id="sread">70.8 MPa</b></span><span class="bar"></span><span>the name carries the same load as the plate</span></div>
+    <p class="role-line"><b>Aerospace engineer</b> · FEA · CFD · Structural optimisation</p>
+    <p class="lede">Aerospace Engineering graduate who has worked on project internships at ISRO (VSSC) and DRDO (CABS). I build finite element models, run structural optimisation and CFD studies, and design composite aerospace structures with a clear view of load paths, sizing and how parts get made.</p>
+    <div class="contact">
+      <div class="cline"><span class="k">Email</span><span class="v" id="em">yuvan.amul.thangamani@gmail.com</span><button class="copy" type="button" data-copy="em">Copy</button></div>
+      <div class="cline"><span class="k">Phone</span><span class="v" id="ph">+91 99435 10511</span><button class="copy" type="button" data-copy="ph">Copy</button></div>
+    </div>
+    <div class="results" aria-label="Key figures">
+      <div class="rh"><span>Result summary</span><span>3 items</span></div>
+      <div class="kpis">
+        <div><b data-count="785" data-dec="0">785</b><span>GATE 2026 AE<br>All India Rank</span></div>
+        <div><b data-count="8.16" data-dec="2">8.16</b><span>B.Tech CGPA<br>Karunya</span></div>
+        <div><b data-count="3" data-dec="0">3</b><span>Internships<br>ISRO · DRDO · Garuda</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="viewport">
+    <div class="vh">
+      <div class="seg" role="group" aria-label="Result type">
+        <button type="button" id="r-vm" aria-pressed="true">Von Mises</button>
+        <button type="button" id="r-sx" aria-pressed="false">σ<sub>x</sub></button>
+        <button type="button" id="r-mesh" aria-pressed="false">Mesh</button>
+      </div>
+      <div class="seg" role="group" aria-label="Contour style">
+        <button type="button" id="c-band" aria-pressed="true">Banded</button>
+        <button type="button" id="c-smooth" aria-pressed="false">Smooth</button>
+      </div>
+      <div class="sp">
+        <span class="solver"><canvas id="resid" width="192" height="44" aria-hidden="true"></canvas><span class="pill ok" id="spill">Converged</span></span>
+        <span>Time <b id="tread">1.00 s</b></span>
+      </div>
+    </div>
+    <div class="vb">
+      <div class="legend" id="legend" aria-hidden="true"></div>
+      <div class="stage">
+        <canvas class="plot" id="fea" width="1200" height="720" role="img" aria-label="Contour plot of a 200 by 140 millimetre plate with a 28 millimetre hole in tension. Stress peaks at the top and bottom edges of the hole, about three times the applied stress."></canvas>
+        <div class="probe" id="probe" hidden></div>
+      </div>
+    </div>
+    <div class="vf">
+      <span>200 × 140 mm plate, Ø 28 mm hole, uniaxial tension · Kirsch infinite-plate solution, K<sub>t</sub> = 3.0 (finite width d/W = 0.2 raises this ~5%)</span>
+      <span><span class="hov">Hover</span> to probe · <button class="linkbtn" type="button" id="replay">Re-run solve</button></span>
+    </div>
+  </div>
+</div>
+
+<main class="gut">
+  <section id="experience">
+    <div class="sh">
+      <div><div class="eyebrow">Static Structural · Full load history</div><h2>Experience</h2></div>
+      <div class="meta">3 internships · 1 degree<br>1 award · 3 volunteering roles</div>
+    </div>
+    <div class="panel xp">
+      <div class="xg" aria-label="Timeline overview, 2022 to 2026">
+        <div class="xg-head"><span>Load history · 2022 – 2026</span><span class="xg-hint">Click a bar to open the entry</span></div>
+        <div class="xg-grid">
+          <span class="xg-l" data-cat="edu"><i style="background:#3c80f8"></i>Education</span>
+          <div class="xg-t" data-cat="edu" style="--rows:1">
+            <button type="button" class="xg-b xg-in" data-go="btech" data-cat="edu" style="left:0.00%;width:80.00%;top:calc(0 * 20px + 3px);background:#3c80f8" aria-label="B.Tech"><span>B.Tech</span></button>
+          </div>
+          <span class="xg-l" data-cat="intern"><i style="background:#ff7a1c"></i>Internships</span>
+          <div class="xg-t" data-cat="intern" style="--rows:1">
+            <button type="button" class="xg-b" data-go="garuda" data-cat="intern" style="left:38.33%;width:3.33%;top:calc(0 * 20px + 3px);background:#ff7a1c" aria-label="Garuda"><span>Garuda</span></button>
+            <button type="button" class="xg-b xg-in" data-go="drdo" data-cat="intern" style="left:71.67%;width:11.67%;top:calc(0 * 20px + 3px);background:#ff7a1c" aria-label="DRDO"><span>DRDO</span></button>
+            <button type="button" class="xg-b" data-go="isro" data-cat="intern" style="left:81.67%;width:5.00%;top:calc(0 * 20px + 3px);background:#ff7a1c" aria-label="ISRO"><span>ISRO</span></button>
+          </div>
+          <span class="xg-l" data-cat="vol"><i style="background:#2de3b1"></i>Volunteering</span>
+          <div class="xg-t" data-cat="vol" style="--rows:2">
+            <button type="button" class="xg-b xg-in" data-go="rot" data-cat="vol" style="left:20.00%;width:20.00%;top:calc(0 * 20px + 3px);background:#2de3b1" aria-label="Rotaract"><span>Rotaract</span></button>
+            <button type="button" class="xg-b xg-in" data-go="nss" data-cat="vol" style="left:40.00%;width:20.00%;top:calc(0 * 20px + 3px);background:#2de3b1" aria-label="NSS"><span>NSS</span></button>
+            <button type="button" class="xg-b xg-in" data-go="grav" data-cat="vol" style="left:40.00%;width:20.00%;top:calc(1 * 20px + 3px);background:#2de3b1" aria-label="Gravitace"><span>Gravitace</span></button>
+          </div>
+          <span class="xg-l" data-cat="award"><i style="background:#d7e235"></i>Awards</span>
+          <div class="xg-t" data-cat="award" style="--rows:1">
+            <button type="button" class="xg-m" data-go="gate" data-cat="award" style="left:80.00%" aria-label="GATE 2026, AIR 785"><span>GATE 2026</span></button>
+          </div>
+          <span></span>
+          <div class="xg-axis"><span style="left:0.00%">2022</span><span style="left:20.00%">2023</span><span style="left:40.00%">2024</span><span style="left:60.00%">2025</span><span style="left:80.00%">2026</span></div>
+        </div>
+        <p class="xg-note">Year-only dates on the resume are drawn from January.</p>
+      </div>
+      <div class="xf" role="group" aria-label="Filter entries">
+        <button type="button" class="xf-b" data-f="all" aria-pressed="true">All <b>8</b></button>
+        <button type="button" class="xf-b" data-f="intern" aria-pressed="false"><i style="background:#ff7a1c"></i>Internships <b>3</b></button>
+        <button type="button" class="xf-b" data-f="edu" aria-pressed="false"><i style="background:#3c80f8"></i>Education <b>1</b></button>
+        <button type="button" class="xf-b" data-f="award" aria-pressed="false"><i style="background:#d7e235"></i>Awards <b>1</b></button>
+        <button type="button" class="xf-b" data-f="vol" aria-pressed="false"><i style="background:#2de3b1"></i>Volunteering & roles <b>3</b></button>
+      </div>
+      <ol class="xl" id="xl">
+        <li class="x" id="x-isro" data-cat="intern" style="--c:#ff7a1c">
+    <button type="button" class="x-h" aria-expanded="false" aria-controls="xd-isro">
+      <span class="x-chip"><i></i>Internship</span><span class="x-date">Feb 2026 – Apr 2026</span>
+      <span class="x-t">Project Intern</span>
+      <span class="x-o">ISRO, Vikram Sarabhai Space Centre (VSSC)</span>
+      <span class="x-s">Scramjet combustion and flow study.</span>
+      <svg class="x-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="x-d" id="xd-isro"><div><div class="x-in"><div><p>Analysed the effect of strut geometry and fuel injection angle on combustion and flow characteristics in a scramjet propulsion system.</p><div class="tags"><span class="tag">CFD</span><span class="tag">Scramjet</span><span class="tag">Supersonic combustion</span></div><button type="button" class="x-proj" data-proj="0">Open related project summary →</button></div></div></div></div>
+  </li>
+        <li class="x" id="x-gate" data-cat="award" style="--c:#d7e235">
+    <button type="button" class="x-h" aria-expanded="false" aria-controls="xd-gate">
+      <span class="x-chip"><i></i>Award</span><span class="x-date">2026</span>
+      <span class="x-t">Qualified GATE 2026</span>
+      <span class="x-o">Aerospace Engineering</span>
+      <span class="x-s">All India Rank 785.</span>
+      <svg class="x-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="x-d" id="xd-gate"><div><div class="x-in"><span class="x-big"><small class="pre">AIR</small>785</span><div><p>Qualified the Graduate Aptitude Test in Engineering (GATE) 2026 in Aerospace Engineering with an All India Rank of 785.</p><div class="tags"><span class="tag">GATE</span><span class="tag">AIR 785</span></div></div></div></div></div>
+  </li>
+        <li class="x" id="x-btech" data-cat="edu" style="--c:#3c80f8">
+    <button type="button" class="x-h" aria-expanded="false" aria-controls="xd-btech">
+      <span class="x-chip"><i></i>Education</span><span class="x-date">2022 – 2026</span>
+      <span class="x-t">B.Tech Aerospace Engineering</span>
+      <span class="x-o">Karunya Institute of Technology and Sciences</span>
+      <span class="x-s">CGPA 8.16.</span>
+      <svg class="x-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="x-d" id="xd-btech"><div><div class="x-in"><span class="x-big">8.16<small>CGPA</small></span><div><p>Undergraduate degree in Aerospace Engineering, completed with a CGPA of 8.16.</p><div class="tags"><span class="tag">Aerospace Engineering</span></div></div></div></div></div>
+  </li>
+        <li class="x" id="x-drdo" data-cat="intern" style="--c:#ff7a1c">
+    <button type="button" class="x-h" aria-expanded="false" aria-controls="xd-drdo">
+      <span class="x-chip"><i></i>Internship</span><span class="x-date">Aug 2025 – Feb 2026</span>
+      <span class="x-t">Project Intern</span>
+      <span class="x-o">DRDO, Centre for Airborne Systems (CABS)</span>
+      <span class="x-s">Antenna mounting unit optimisation in ANSYS.</span>
+      <svg class="x-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="x-d" id="xd-drdo"><div><div class="x-in"><div><p>Performed structural optimisation of an antenna mounting unit using Response Surface Optimisation in ANSYS.</p><div class="tags"><span class="tag">FEA</span><span class="tag">ANSYS</span><span class="tag">Response Surface Optimisation</span></div><button type="button" class="x-proj" data-proj="1">Open related project summary →</button></div></div></div></div>
+  </li>
+        <li class="x" id="x-grav" data-cat="vol" style="--c:#2de3b1">
+    <button type="button" class="x-h" aria-expanded="false" aria-controls="xd-grav">
+      <span class="x-chip"><i></i>Volunteering</span><span class="x-date">2024 – 2025</span>
+      <span class="x-t">Event Manager</span>
+      <span class="x-o">Gravitace Club, Karunya University</span>
+      <span class="x-s">Managed club events.</span>
+      <svg class="x-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="x-d" id="xd-grav"><div><div class="x-in"><div><p>Event Manager for the Gravitace Club at Karunya University.</p><div class="tags"><span class="tag">Event management</span><span class="tag">Leadership</span></div></div></div></div></div>
+  </li>
+        <li class="x" id="x-nss" data-cat="vol" style="--c:#2de3b1">
+    <button type="button" class="x-h" aria-expanded="false" aria-controls="xd-nss">
+      <span class="x-chip"><i></i>Volunteering</span><span class="x-date">2024 – 2025</span>
+      <span class="x-t">Editor, Skill Development Group</span>
+      <span class="x-o">National Service Scheme (NSS), Karunya University</span>
+      <span class="x-s">Editor for the NSS Skill Development Group.</span>
+      <svg class="x-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="x-d" id="xd-nss"><div><div class="x-in"><div><p>Editor of the Skill Development Group within the National Service Scheme (NSS) at Karunya University.</p><div class="tags"><span class="tag">NSS</span><span class="tag">Editing</span><span class="tag">Volunteering</span></div></div></div></div></div>
+  </li>
+        <li class="x" id="x-rot" data-cat="vol" style="--c:#2de3b1">
+    <button type="button" class="x-h" aria-expanded="false" aria-controls="xd-rot">
+      <span class="x-chip"><i></i>Volunteering</span><span class="x-date">2023 – 2024</span>
+      <span class="x-t">Student Ambassador</span>
+      <span class="x-o">Rotaract Club, Karunya University</span>
+      <span class="x-s">Represented the Rotaract Club.</span>
+      <svg class="x-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="x-d" id="xd-rot"><div><div class="x-in"><div><p>Student Ambassador for the Rotaract Club at Karunya University.</p><div class="tags"><span class="tag">Rotaract</span><span class="tag">Community service</span></div></div></div></div></div>
+  </li>
+        <li class="x" id="x-garuda" data-cat="intern" style="--c:#ff7a1c">
+    <button type="button" class="x-h" aria-expanded="false" aria-controls="xd-garuda">
+      <span class="x-chip"><i></i>Internship</span><span class="x-date">Dec 2023 – Jan 2024</span>
+      <span class="x-t">Drone Pilot Intern</span>
+      <span class="x-o">Garuda Aerospace Pvt. Ltd.</span>
+      <span class="x-s">60+ drone flights, 15+ flight hours.</span>
+      <svg class="x-ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="x-d" id="xd-garuda"><div><div class="x-in"><span class="x-big">60+<small>flights</small></span><div><p>Accumulated over 15 flight hours and completed more than 60 successful drone flights.</p><div class="tags"><span class="tag">UAV operations</span><span class="tag">Flight hours</span></div></div></div></div></div>
+  </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="sh">
+      <div><div class="eyebrow">Solution · Solved cases</div><h2>Projects</h2></div>
+      <div class="meta">1 CFD · 2 FEA · <span class="hov">hover</span> to animate<br>Thumbnails are illustrative</div>
+    </div>
+    <div class="proj">
+      <article class="card panel" data-proj="0" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open summary: scramjet strut injector CFD">
+        <div class="thumb"><canvas class="mini" data-kind="scram" width="640" height="360" aria-hidden="true"></canvas><span class="cap">Mach number</span><span class="live">Flow ▶</span></div>
+        <div class="cb">
+          <div class="typ">CFD · Supersonic combustion</div>
+          <h3>Combustion efficiency in a scramjet with a modified strut injector</h3>
+          <p>3D CFD of modified strut injector geometries to study flow behaviour, shock interactions and fuel–air mixing at supersonic speeds, with the aim of improving combustion efficiency.</p>
+          <div class="tags"><span class="tag">3D CFD</span><span class="tag">Shock interaction</span><span class="tag">Fuel–air mixing</span></div>
+        </div>
+        <div class="more"><span>View summary</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+      </article>
+      <article class="card panel" data-proj="1" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open summary: antenna mounting unit optimisation">
+        <div class="thumb"><canvas class="mini" data-kind="bracket" width="640" height="360" aria-hidden="true"></canvas><span class="cap">Von Mises stress</span><span class="live">Load cycle ▶</span></div>
+        <div class="cb">
+          <div class="typ">FEA · Structural optimisation</div>
+          <h3>Structural optimisation of an antenna mounting unit</h3>
+          <p>Finite element models of the mounting unit under several load cases in ANSYS, then Response Surface Optimisation to cut weight while keeping stiffness and structural integrity.</p>
+          <div class="tags"><span class="tag">ANSYS</span><span class="tag">Multiple load cases</span><span class="tag">Lightweighting</span></div>
+        </div>
+        <div class="more"><span>View summary</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+      </article>
+      <article class="card panel" data-proj="2" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open summary: wing optimisation method comparison">
+        <div class="thumb"><canvas class="mini" data-kind="wing" width="640" height="360" aria-hidden="true"></canvas><span class="cap">Bending stress</span><span class="live">Gust ▶</span></div>
+        <div class="cb">
+          <div class="typ">FEA · Method comparison</div>
+          <h3>Direct vs Response Surface Optimisation for wing design</h3>
+          <p>Compared both methods for minimising the mass of a NACA 4415 wing while meeting structural constraints under aerodynamic loading.</p>
+          <div class="tags"><span class="tag">NACA 4415</span><span class="tag">Mass minimisation</span><span class="tag">Structural constraints</span></div>
+        </div>
+        <div class="more"><span>View summary</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="sh">
+      <div><div class="eyebrow">Geometry &amp; solvers · Toolchain</div><h2>Skills</h2></div>
+      <div class="meta">9 software tools<br>3 languages</div>
+    </div>
+    <div class="panel skills">
+      <div class="sk">
+        <h4>Simulation &amp; analysis</h4>
+        <ul class="tools">
+          <li>ANSYS Workbench<span>FEA · RSO</span></li>
+          <li>ANSYS APDL<span>FEA</span></li>
+          <li>HyperMesh<span>Meshing</span></li>
+          <li>Nastran<span>Solver</span></li>
+          <li>Patran<span>Pre/post</span></li>
+        </ul>
+      </div>
+      <div class="sk">
+        <h4>CAD</h4>
+        <ul class="tools"><li>CATIA V5</li><li>SolidWorks</li><li>AutoCAD</li><li>Fusion 360</li></ul>
+      </div>
+      <div class="sk">
+        <h4>Engineering</h4>
+        <ul class="tools"><li>Structural sizing</li><li>Load path analysis</li><li>Composite structures</li><li>Manufacturing drawings</li><li>Aircraft manufacturing</li></ul>
+      </div>
+      <div class="sk">
+        <h4>Languages</h4>
+        <div class="lang"><span>Tamil</span><span class="meter"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span><small>Native</small></div>
+        <div class="lang"><span>English</span><span class="meter"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span><small>Professional</small></div>
+        <div class="lang"><span>Hindi</span><span class="meter"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></span><small>Intermediate</small></div>
+        <h4 style="margin-top:8px">Working style</h4>
+        <div class="tags" style="margin-top:0"><span class="tag">Communication</span><span class="tag">Problem solving</span><span class="tag">Teamwork</span><span class="tag">Time management</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="panel contactband">
+      <div>
+        <div class="eyebrow">Post-processing complete</div>
+        <h2>Let's talk structures.</h2>
+        <p>Get in touch about structural analysis, FEA and CFD work in aerospace.</p>
+      </div>
+      <div class="contact">
+        <div class="cline"><span class="k">Email</span><span class="v" id="em2">yuvan.amul.thangamani@gmail.com</span><button class="copy" type="button" data-copy="em2">Copy</button></div>
+        <div class="cline"><span class="k">Phone</span><span class="v" id="ph2">+91 99435 10511</span><button class="copy" type="button" data-copy="ph2">Copy</button></div>
+      </div>
+      <div class="beam"><canvas id="beam" aria-label="Animated simply supported beam: a point load moves along the span, the beam deflects and its bending stress and bending moment diagram update." role="img"></canvas><span class="cap">Simply supported beam · moving load · σ = My/I · illustrative</span></div>
+    </div>
+  </section>
+</main>
+
+<dialog class="sum" id="sum" aria-labelledby="sum-title">
+  <div class="sum-bar">
+    <span class="lbl">Solved case <b id="sum-idx">1 / 3</b></span>
+    <span><b id="sum-kind">CFD</b></span>
+    <div class="sum-nav">
+      <button type="button" id="sum-prev" aria-label="Previous project">← Prev</button>
+      <button type="button" id="sum-next" aria-label="Next project">Next →</button>
+      <button type="button" id="sum-close" aria-label="Close summary">Close ✕</button>
+    </div>
+  </div>
+  <div class="sum-vis"><canvas class="mini" id="sum-canvas" data-kind="scram" width="960" height="420" aria-hidden="true"></canvas><span class="cap" id="sum-cap">Mach number · illustrative</span><span class="sum-scale" aria-hidden="true"></span></div>
+  <div class="sum-body">
+    <div class="sum-main">
+      <div class="typ" id="sum-typ"></div>
+      <h3 id="sum-title"></h3>
+      <div><h4>Objective</h4><p id="sum-obj"></p></div>
+      <div><h4>What was done</h4><ul id="sum-did"></ul></div>
+      <div><h4>Method note</h4><p id="sum-method"></p></div>
+    </div>
+    <aside class="sum-side">
+      <div><h4>Analysis setup</h4><dl id="sum-setup"></dl></div>
+      <div id="sum-rel-wrap"><h4>Related experience</h4><p class="note" id="sum-rel"></p></div>
+      <div class="tags" id="sum-tags" style="margin-top:0"></div>
+    </aside>
+  </div>
+</dialog>
+
+<footer class="gut">
+  <span>Yuvan T · Aerospace Engineer</span>
+  <span>Solution converged · 0 warnings</span>
+</footer>
+
+<script>
+(function(){
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const $=id=>document.getElementById(id);
+  const root=document.documentElement;
+  const ease=k=>1-Math.pow(1-k,3);
+
+  /* ---------- colour science: Turbo map (Mikhailov 2019), ends trimmed so both extremes stay visible on light and dark ---------- */
+  function turbo(t){
+    t=Math.max(0,Math.min(1,.07+.86*t));
+    const r=.13572138+t*(4.6153926+t*(-42.66032258+t*(132.13108234+t*(-152.94239396+t*59.28637943))));
+    const g=.09140261+t*(2.19418839+t*(4.84296658+t*(-14.18503333+t*(4.27729857+t*2.82956604))));
+    const b=.1066733+t*(12.64194608+t*(-60.58204836+t*(110.36276771+t*(-89.90310912+t*27.34824973))));
+    const c=x=>Math.round(Math.max(0,Math.min(1,x))*255);return [c(r),c(g),c(b)];
+  }
+  const NB=9,LUT=[],BAND=[];
+  for(let i=0;i<256;i++)LUT.push(turbo(i/255));
+  for(let i=0;i<NB;i++)BAND.push(turbo((i+.5)/NB));
+  const hex=c=>'#'+c.map(v=>v.toString(16).padStart(2,'0')).join('');
+
+  /* ---------- Kirsch plate ---------- */
+  const cv=$('fea'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  // plate 200 x 140 mm, hole Ø 28 mm (d/W = 0.2) so the infinite-plate Kirsch solution stays within ~5%; 4.2 px per mm
+  const PX=4.2,cx=W/2,cy=H/2-6,pw=200*PX,ph=140*PX,a=14*PX,S=70.8;
+  const x0=cx-pw/2,x1=cx+pw/2,y0=cy-ph/2,y1=cy+ph/2;
+  const VM=new Float32Array(W*H),SX=new Float32Array(W*H);
+  let vmMin=1e9,sxMin=1e9;
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+    const k=y*W+x,px=x+.5,py=y+.5;
+    if(px<x0||px>x1||py<y0||py>y1){VM[k]=-1;SX[k]=NaN;continue;}
+    const dx=px-cx,dy=py-cy,r2=dx*dx+dy*dy,a2=a*a;
+    if(r2<a2){VM[k]=-1;SX[k]=NaN;continue;}
+    const q=a2/r2,q2=q*q,th=Math.atan2(-dy,dx),c2=Math.cos(2*th),s2=Math.sin(2*th),cs=Math.cos(th),sn=Math.sin(th);
+    const sr=S/2*(1-q)+S/2*(1-4*q+3*q2)*c2,st=S/2*(1+q)-S/2*(1+3*q2)*c2,tr=-S/2*(1+2*q-3*q2)*s2;
+    const v=Math.sqrt(sr*sr-sr*st+st*st+3*tr*tr),sx=sr*cs*cs+st*sn*sn-2*tr*sn*cs;
+    VM[k]=v;SX[k]=sx;if(v<vmMin)vmMin=v;if(sx<sxMin)sxMin=sx;
+  }
+  const RES={
+    vm:{f:VM,lo:Math.floor(vmMin*10)/10,hi:3*S,name:'Equivalent stress',type:'von Mises'},
+    sx:{f:SX,lo:Math.floor(sxMin*10)/10,hi:3*S,name:'Normal stress',type:'σx, load direction'}
+  };
+  const NT=72,NR=14,nodes=[];
+  function rayEnd(th){const c=Math.cos(th),s=Math.sin(th);let t=Infinity;
+    if(c>1e-9)t=Math.min(t,(x1-cx)/c);if(c<-1e-9)t=Math.min(t,(x0-cx)/c);if(s>1e-9)t=Math.min(t,(y1-cy)/s);if(s<-1e-9)t=Math.min(t,(y0-cy)/s);return [cx+c*t,cy+s*t];}
+  for(let j=0;j<NT;j++){const th=j/NT*Math.PI*2,e=rayEnd(th),hs=[cx+a*Math.cos(th),cy+a*Math.sin(th)];nodes[j]=[];
+    for(let i=0;i<=NR;i++){const s=Math.pow(i/NR,1.7);nodes[j][i]=[hs[0]+(e[0]-hs[0])*s,hs[1]+(e[1]-hs[1])*s];}}
+
+  let res='vm',smooth=false,T=1,meshK=1;
+  const img=ctx.createImageData(W,H);
+
+  function legend(){
+    const lg=$('legend');
+    if(res==='mesh'){lg.innerHTML='<div class="t"><b>Mesh</b>Quad O-grid<br>Nodes 1,080<br>Elements 1,008<br>Graded towards hole</div>';return;}
+    const R=RES[res];let h='<div class="t"><b>'+R.name+'</b>Type: '+R.type+'<br>Unit: MPa</div>';
+    for(let i=NB-1;i>=0;i--){
+      const v=R.lo+(R.hi-R.lo)*(i+1)/NB;
+      const bg=smooth?'linear-gradient(180deg,'+hex(turbo((i+1)/NB))+','+hex(turbo(i/NB))+')':hex(BAND[i]);
+      h+='<div class="row"><span class="sw" style="background:'+bg+'"></span><span>'+v.toFixed(1)+(i===NB-1?' Max':'')+'</span></div>';
+    }
+    h+='<div class="row"><span class="sw" style="background:transparent"></span><span>'+R.lo.toFixed(1)+' Min</span></div>';
+    lg.innerHTML=h;
+  }
+
+  function paint(){
+    const d=img.data,fg=css('--fg'),muted=css('--muted'),panel=css('--panel'),cw=cv.clientWidth||W,k=Math.min(2.4,Math.max(1,W/cw*.55)),F=n=>Math.round(n*k)+'px "IBM Plex Mono",monospace';
+    if(res==='mesh'){
+      ctx.clearRect(0,0,W,H);ctx.fillStyle=css('--sunk');ctx.fillRect(x0,y0,pw,ph);
+      ctx.fillStyle=panel;ctx.beginPath();ctx.arc(cx,cy,a,0,Math.PI*2);ctx.fill();
+    }else{
+      const R=RES[res],f=R.f,span=R.hi-R.lo,isVM=res==='vm';
+      for(let k=0;k<f.length;k++){
+        const p=k*4,v=f[k];
+        if(isVM?v<0:v!==v){d[p+3]=0;continue;}
+        let u=((v*T)-R.lo)/span;if(u<0)u=0;if(u>.99999)u=.99999;
+        const c=smooth?LUT[(u*255)|0]:BAND[(u*NB)|0];
+        d[p]=c[0];d[p+1]=c[1];d[p+2]=c[2];d[p+3]=255;
+      }
+      ctx.clearRect(0,0,W,H);ctx.putImageData(img,0,0);
+    }
+    // mesh, drawn outwards from the hole while "meshing"
+    const ringMax=Math.round(NR*meshK),rayMax=Math.round(NT*Math.min(1,meshK*1.4));
+    ctx.strokeStyle=res==='mesh'?css('--line-strong'):'rgba(0,0,0,.26)';ctx.lineWidth=res==='mesh'?1:.8;ctx.beginPath();
+    for(let j=0;j<rayMax;j++){const n=nodes[j];ctx.moveTo(n[0][0],n[0][1]);for(let i=1;i<=ringMax;i++)ctx.lineTo(n[i][0],n[i][1]);}
+    for(let i=0;i<=ringMax;i++){ctx.moveTo(nodes[0][i][0],nodes[0][i][1]);for(let j=1;j<=NT;j++){const n=nodes[j%NT][i];ctx.lineTo(n[0],n[1]);}}
+    ctx.stroke();
+    if(res==='mesh'){ctx.fillStyle=fg;for(let j=0;j<rayMax;j++)for(let i=0;i<=ringMax;i++){const n=nodes[j][i];ctx.fillRect(n[0]-1.2,n[1]-1.2,2.4,2.4);}}
+    ctx.strokeStyle=fg;ctx.lineWidth=1.6;ctx.strokeRect(x0,y0,pw,ph);ctx.beginPath();ctx.arc(cx,cy,a,0,Math.PI*2);ctx.stroke();
+    // load arrows grow with the load step
+    const hot=css('--hot');ctx.strokeStyle=hot;ctx.fillStyle=hot;ctx.lineWidth=2.2*Math.min(k,1.6);const len=14+40*T,ah=12*Math.min(k,1.6),aw=6*Math.min(k,1.6);
+    for(let k=0;k<7;k++){const y=y0+ph*(k+.5)/7;
+      [[x0,-1],[x1,1]].forEach(([x,dir])=>{const xe=x+dir*len;ctx.beginPath();ctx.moveTo(x+dir*4,y);ctx.lineTo(xe-dir*10,y);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(xe,y);ctx.lineTo(xe-dir*ah,y-aw);ctx.lineTo(xe-dir*ah,y+aw);ctx.closePath();ctx.fill();});}
+    ctx.font='500 '+F(19);ctx.textAlign='center';
+    if(k>1.3)ctx.fillText('← σ = '+(S*T).toFixed(1)+' MPa →',cx,y0-14);
+    else{ctx.fillText('σ = '+(S*T).toFixed(1)+' MPa',x0-30,y0-16);ctx.fillText('σ = '+(S*T).toFixed(1)+' MPa',x1+30,y0-16);}
+    if(res!=='mesh'){
+      ctx.fillStyle=fg;ctx.strokeStyle=fg;ctx.lineWidth=1.6;ctx.textAlign='left';const mx=cx,my=cy-a;
+      ctx.beginPath();ctx.arc(mx,my,7,0,Math.PI*2);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(mx+6,my-6);ctx.lineTo(mx+64,my-64);ctx.lineTo(mx+84,my-64);ctx.stroke();
+      ctx.font='600 '+F(20);const lab='Max '+(3*S*T).toFixed(1),lw=ctx.measureText(lab).width,fh=20*k;
+      ctx.fillStyle=panel;ctx.fillRect(mx+88,my-64-fh*1.05,lw+14,fh*1.5);ctx.fillStyle=fg;ctx.fillText(lab,mx+95,my-64+fh*.2);
+    }
+    ctx.strokeStyle=muted;ctx.fillStyle=muted;ctx.lineWidth=1;ctx.font=F(16);ctx.textAlign='center';
+    const dy=y1+30;ctx.beginPath();ctx.moveTo(x0,dy);ctx.lineTo(x1,dy);ctx.moveTo(x0,dy-6);ctx.lineTo(x0,dy+6);ctx.moveTo(x1,dy-6);ctx.lineTo(x1,dy+6);ctx.stroke();
+    const dw=ctx.measureText('200 mm').width+16;ctx.fillStyle=panel;ctx.fillRect(cx-dw/2,dy-9*k-2,dw,18*k+4);ctx.fillStyle=muted;ctx.fillText('200 mm',cx,dy+5*k);ctx.textAlign='left';
+    ctx.fillText('Ø 28',cx+a+10,cy+6);
+    const tx=24,ty=H-14;ctx.lineWidth=2;
+    ctx.strokeStyle='#dd3f11';ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(tx+40,ty);ctx.stroke();
+    ctx.strokeStyle='#2fa84f';ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(tx,ty-40);ctx.stroke();
+    ctx.fillStyle=muted;ctx.font=F(14);ctx.fillText('X',tx+46,ty+5);ctx.fillText('Y',tx-4,ty-46);
+  }
+
+  // the name is stretched by the same load as the plate
+  function setLoad(t){T=t;root.style.setProperty('--load',t.toFixed(3));$('tread').textContent=t.toFixed(2)+' s';$('sread').textContent=(S*t).toFixed(1)+' MPa';}
+
+  // residual sparkline
+  const rc=$('resid'),rx=rc.getContext('2d'),pill=$('spill'),resid=[];
+  for(let i=0;i<40;i++)resid.push(Math.min(0,-(i/39)*6.2+.25*Math.sin(i*1.7)*(1-i/39)+(i<4?.3:0)));
+  function drawResid(n){
+    const w=rc.width,h=rc.height;rx.clearRect(0,0,w,h);
+    rx.strokeStyle=css('--line');rx.lineWidth=1;rx.beginPath();rx.moveTo(0,h-1);rx.lineTo(w,h-1);rx.stroke();
+    if(!n)return;
+    rx.strokeStyle=css('--accent');rx.lineWidth=2;rx.beginPath();
+    for(let i=0;i<n;i++){const X=i/39*(w-6)+3,Y=4+(-resid[i]/6.5)*(h-8);i?rx.lineTo(X,Y):rx.moveTo(X,Y);}rx.stroke();
+    const i=n-1,X=i/39*(w-6)+3,Y=4+(-resid[i]/6.5)*(h-8);rx.fillStyle=css('--accent');rx.beginPath();rx.arc(X,Y,3,0,7);rx.fill();
+  }
+
+  // KPI count-up runs alongside the solve
+  function countUp(els,dur){
+    if(reduce)return;
+    els.forEach(el=>{const to=+el.dataset.count,dec=+el.dataset.dec,t0=performance.now();
+      (function f(now){const k=Math.min(1,(now-t0)/dur);el.textContent=(to*ease(k)).toFixed(dec);if(k<1)requestAnimationFrame(f);else el.textContent=to.toFixed(dec);})(t0);});
+  }
+
+  // orchestrated solve: mesh -> residuals -> load ramp
+  let anim=0;
+  function solve(){
+    cancelAnimationFrame(anim);
+    if(reduce){meshK=1;setLoad(1);paint();drawResid(40);pill.textContent='Converged';pill.className='pill ok';return;}
+    const t0=performance.now(),M1=700,M2=1450,M3=2800;
+    pill.className='pill run';countUp(document.querySelectorAll('.kpis [data-count]'),M3);
+    function f(now){
+      const e=now-t0;
+      if(e<M1){meshK=ease(e/M1);setLoad(0);pill.textContent='Meshing';drawResid(0);}
+      else if(e<M2){meshK=1;setLoad(0);const n=Math.max(1,Math.round(40*(e-M1)/(M2-M1)));drawResid(n);pill.textContent='Iter '+n+' · 1e'+Math.round(resid[n-1]);}
+      else{meshK=1;drawResid(40);pill.textContent='Load step';setLoad(ease(Math.min(1,(e-M2)/(M3-M2))));}
+      paint();
+      if(e<M3)anim=requestAnimationFrame(f);else{meshK=1;setLoad(1);paint();pill.textContent='Converged';pill.className='pill ok';}
+    }
+    anim=requestAnimationFrame(f);
+  }
+
+  function setRes(r){res=r;['vm','sx','mesh'].forEach(k=>$('r-'+k).setAttribute('aria-pressed',k===r));legend();paint();}
+  function setSmooth(s){smooth=s;$('c-band').setAttribute('aria-pressed',!s);$('c-smooth').setAttribute('aria-pressed',s);legend();paint();}
+  $('r-vm').onclick=()=>setRes('vm');$('r-sx').onclick=()=>setRes('sx');$('r-mesh').onclick=()=>setRes('mesh');
+  $('c-band').onclick=()=>setSmooth(false);$('c-smooth').onclick=()=>setSmooth(true);
+  $('replay').onclick=solve;
+
+  const probe=$('probe');
+  function doProbe(ev){
+    const r=cv.getBoundingClientRect(),px=(ev.clientX-r.left)/r.width*W,py=(ev.clientY-r.top)/r.height*H,xi=px|0,yi=py|0;
+    if(xi<0||yi<0||xi>=W||yi>=H||VM[yi*W+xi]<0){probe.hidden=true;return;}
+    const xm=((px-cx)/PX).toFixed(1),ym=(-(py-cy)/PX).toFixed(1),k=yi*W+xi;
+    probe.textContent=res==='mesh'?'('+xm+', '+ym+') mm':(RES[res].f[k]*T).toFixed(1)+' MPa  ('+xm+', '+ym+') mm';
+    probe.style.left=(ev.clientX-r.left)+'px';probe.style.top=(ev.clientY-r.top)+'px';probe.hidden=false;
+  }
+  cv.addEventListener('pointermove',doProbe);cv.addEventListener('pointerdown',doProbe);cv.addEventListener('pointerleave',()=>probe.hidden=true);
+
+  legend();meshK=1;setLoad(1);paint();drawResid(40);
+  let rT=0;addEventListener('resize',()=>{clearTimeout(rT);rT=setTimeout(()=>{if(meshK>=1)paint();},120);});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(solve);else solve();
+
+  /* ---------- project thumbnails: fields computed once, animated on hover ---------- */
+  const g=(d,s)=>Math.exp(-(d*d)/(s*s));
+  const kinds={
+    scram:(u,v)=>{
+      if(v<.12||v>.88)return null;
+      const sx=.32,sl=.14,ch=.5,half=.06,t=(u-sx)/sl;
+      if(t>=0&&t<=1&&Math.abs(v-ch)<half*t)return null;
+      if(u>sx+sl&&u<sx+sl+.02&&Math.abs(v-ch)<half)return null;
+      let m=.82;const ang=.55;
+      [1,-1].forEach(sg=>{const d1=Math.abs((v-ch)-sg*(u-sx)*ang)/Math.hypot(1,ang);if(u>sx)m-=.32*g(d1,.025)*(1-Math.min(1,Math.max(0,(u-sx)*1.2)));
+        const ur=sx+.38/ang,d2=Math.abs((v-ch)-sg*(.38-(u-ur)*ang))/Math.hypot(1,ang);if(u>ur)m-=.22*g(d2,.03);});
+      if(u>sx+sl){const wk=g(v-ch,.03+.12*(u-sx-sl));m-=.55*wk*Math.max(.25,1-(u-sx-sl)*1.1);}
+      if(u<sx)m=.82;return m;
+    },
+    bracket:(u,v,ar)=>{
+      const X=u*ar,Y=v,inV=X>.5&&X<.78&&Y>.12&&Y<.9,inH=X>.5&&X<1.55&&Y>.62&&Y<.9;
+      if(!(inV||inH))return null;
+      if((X-1.38)**2+(Y-.76)**2<.004)return null;if((X-.64)**2+(Y-.3)**2<.004)return null;
+      let s=.85*g(Math.hypot(X-.78,Y-.62),.12)+.15;
+      if(inH&&!inV)s+=.35*(1.55-X)/1.05*Math.abs(Y-.76)/.14;
+      if(inV&&Y<.62)s+=.3*Math.abs(X-.64)/.14*(1-(.62-Y)/.5);
+      s+=.35*g(Math.hypot(X-.64,Y-.3)-.063,.02);return Math.min(.99,s*.85);
+    },
+    wing:(u,v,ar)=>{
+      const X=u*ar,root=.12,span=1.54,s=(X-root)/span;if(s<0||s>1)return null;
+      const le=.14+s*.34,c=.72*(1-s*.55),te=le+c;if(v<le||v>te)return null;
+      const cc=(v-le)/c;return Math.min(.99,(1-s)*(1-s)*(g(cc-.3,.14)*.9+.1)*1.05+.02);
+    }
+  };
+  const cache=new Map();
+  function fieldFor(c){
+    const key=c.dataset.kind+'_'+c.width;if(cache.has(key))return cache.get(key);
+    const w=c.width,h=c.height,F=new Float32Array(w*h),fn=kinds[c.dataset.kind];
+    for(let j=0;j<h;j++)for(let i=0;i<w;i++){const v=fn(i/w,j/h,w/h);F[j*w+i]=v==null?-1:v;}
+    const o={F,w,h};cache.set(key,o);return o;
+  }
+  function renderMini(c,ph){
+    const {F,w,h}=fieldFor(c),x=c.getContext('2d'),im=x.createImageData(w,h),d=im.data,kind=c.dataset.kind;
+    const sc=kind==='bracket'&&ph>0?.62+.38*(.5+.5*Math.cos(ph*2.2)):1;
+    for(let j=0;j<h;j++)for(let i=0;i<w;i++){
+      const k=j*w+i,p=k*4;let v=F[k];if(v<0){d[p+3]=0;continue;}
+      if(ph>0){
+        if(kind==='scram'&&i/w>.46)v-=.05*Math.sin(i/w*40-ph*6)*g(j/h-.5,.18);
+        else if(kind==='wing'){const s=i/w;v*=1+.16*Math.sin(ph*4-s*7)*s;}
+        else v*=sc;
+      }
+      const b=Math.floor(Math.max(0,Math.min(.9999,v))*NB),cc=BAND[b];d[p]=cc[0];d[p+1]=cc[1];d[p+2]=cc[2];d[p+3]=255;
+    }
+    x.clearRect(0,0,w,h);x.putImageData(im,0,0);
+    x.save();x.globalCompositeOperation='source-atop';x.strokeStyle='rgba(0,0,0,.16)';x.lineWidth=.6;x.beginPath();
+    const st=Math.round(w/46);for(let i=0;i<=w;i+=st){x.moveTo(i,0);x.lineTo(i,h);}for(let j=0;j<=h;j+=st){x.moveTo(0,j);x.lineTo(w,j);}x.stroke();x.restore();
+    if(kind==='scram'&&ph>0){ // tracers advected at the local Mach number
+      const P=c._pts||(c._pts=Array.from({length:Math.round(w/8)},()=>({x:Math.random()*w,y:h*(.14+Math.random()*.72)})));
+      x.fillStyle='rgba(255,255,255,.9)';
+      P.forEach(q=>{const m=F[(q.y|0)*w+(q.x|0)];q.x+=w*.006*(.4+(m>0?m:.3));
+        if(q.x>=w||F[(q.y|0)*w+(q.x|0)]<0){q.x=0;q.y=h*(.14+Math.random()*.72);}x.fillRect(q.x,q.y,2.4,2.4);});
+    }
+    if(kind==='bracket'){x.fillStyle=css('--muted');for(let j=0;j<6;j++)x.fillRect(.5*h-14,.12*h+j*.13*h,8,4);}
+  }
+  function drawMinis(){document.querySelectorAll('canvas.mini').forEach(c=>renderMini(c,0));}
+  drawMinis();
+  function animateMini(c){
+    if(reduce)return()=>{};let on=true;const t0=performance.now();
+    (function f(now){if(!on)return;renderMini(c,(now-t0)/1000+.001);requestAnimationFrame(f);})(t0);
+    return()=>{on=false;renderMini(c,0);};
+  }
+  const touch=matchMedia('(hover: none)').matches;
+  if(touch)document.querySelectorAll('.hov').forEach(e=>e.textContent=e.closest('.meta')?'scroll':'Tap');
+  document.querySelectorAll('.card').forEach(card=>{
+    const c=card.querySelector('canvas.mini');let stop=null;
+    const start=()=>{if(!stop)stop=animateMini(c);},end=()=>{if(stop){stop();stop=null;}};
+    if(touch){try{new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?start():end()),{threshold:.75}).observe(c);}catch(e){}}
+    else{card.addEventListener('pointerenter',start);card.addEventListener('pointerleave',end);}
+    card.addEventListener('focus',start);card.addEventListener('blur',end);
+  });
+
+  /* ---------- contact band: simply supported beam, moving point load (Euler-Bernoulli) ---------- */
+  const bc=$('beam');let bdraw=()=>{};
+  {
+    const bx=bc.getContext('2d');let bw=1,bh=1,dpr=1,running=false;const t0=performance.now();
+    function bsize(){dpr=Math.min(2,devicePixelRatio||1);bw=bc.width=Math.max(1,bc.clientWidth*dpr|0);bh=bc.height=Math.max(1,bc.clientHeight*dpr|0);}
+    bdraw=function(t){
+      const fg=css('--fg'),muted=css('--muted'),hot=css('--hot'),acc=css('--accent'),soft=css('--accent-soft');
+      bx.clearRect(0,0,bw,bh);
+      const m=Math.max(44*dpr,bw*.07),L=bw-2*m,yc=bh*.33,d=Math.min(34*dpr,bh*.17),nx=Math.max(36,Math.round(L/(14*dpr))),ny=6;
+      const ar=.5+.38*Math.sin(t*.55),a=L*ar,b=L-a;
+      const vmid=16*dpr,cc=vmid*48/(L*L*L);
+      const v=x=>x<=a?cc*b*x*(L*L-b*b-x*x)/(6*L):cc*a*(L-x)*(L*L-a*a-(L-x)*(L-x))/(6*L);
+      const M=x=>x<=a?b*x/L:a*(L-x)/L,Mref=L/4,Mc=Math.max(M(a),1e-6);
+      for(let i=0;i<nx;i++){const xa=L*i/nx,xb=L*(i+1)/nx,va=v(xa),vb=v(xb),mm=M((xa+xb)/2)/Mc;
+        for(let j=0;j<ny;j++){const ya=-d/2+d*j/ny,yb=-d/2+d*(j+1)/ny,u=Math.min(.9999,Math.abs(mm*(ya+yb)/d)),c=BAND[(u*NB)|0];
+          bx.fillStyle='rgb('+c[0]+','+c[1]+','+c[2]+')';bx.beginPath();
+          bx.moveTo(m+xa,yc+ya+va);bx.lineTo(m+xb,yc+ya+vb);bx.lineTo(m+xb,yc+yb+vb);bx.lineTo(m+xa,yc+yb+va);bx.closePath();bx.fill();}}
+      bx.strokeStyle='rgba(0,0,0,.22)';bx.lineWidth=.6*dpr;bx.beginPath();
+      for(let i=0;i<=nx;i++){const x=L*i/nx,vv=v(x);bx.moveTo(m+x,yc-d/2+vv);bx.lineTo(m+x,yc+d/2+vv);}
+      for(let j=0;j<=ny;j++){const y=-d/2+d*j/ny;for(let i=0;i<=nx;i++){const x=L*i/nx;i?bx.lineTo(m+x,yc+y+v(x)):bx.moveTo(m+x,yc+y+v(x));}}
+      bx.stroke();
+      bx.setLineDash([5*dpr,4*dpr]);bx.strokeStyle=muted;bx.lineWidth=dpr;bx.strokeRect(m,yc-d/2,L,d);bx.setLineDash([]);
+      // supports: pin (left), roller (right)
+      const sy=yc+d/2,tw=9*dpr,th=14*dpr;bx.strokeStyle=fg;bx.lineWidth=1.4*dpr;
+      [m,m+L].forEach((x,k)=>{bx.beginPath();bx.moveTo(x,sy);bx.lineTo(x-tw,sy+th);bx.lineTo(x+tw,sy+th);bx.closePath();bx.stroke();
+        let gy=sy+th;if(k){[-5,5].forEach(o=>{bx.beginPath();bx.arc(x+o*dpr,gy+3.5*dpr,3*dpr,0,7);bx.stroke();});gy+=7*dpr;}
+        bx.beginPath();bx.moveTo(x-tw-5*dpr,gy);bx.lineTo(x+tw+5*dpr,gy);for(let h=-tw-3*dpr;h<tw+5*dpr;h+=5*dpr){bx.moveTo(x+h,gy);bx.lineTo(x+h-4*dpr,gy+5*dpr);}bx.stroke();});
+      // moving load
+      const lx=m+a,ly=yc-d/2+v(a);bx.strokeStyle=hot;bx.fillStyle=hot;bx.lineWidth=2.2*dpr;
+      bx.beginPath();bx.moveTo(lx,ly-30*dpr);bx.lineTo(lx,ly-9*dpr);bx.stroke();
+      bx.beginPath();bx.moveTo(lx,ly-1*dpr);bx.lineTo(lx-6*dpr,ly-11*dpr);bx.lineTo(lx+6*dpr,ly-11*dpr);bx.closePath();bx.fill();
+      bx.font='600 '+(12*dpr)+'px "IBM Plex Mono",monospace';bx.textAlign='center';bx.fillText('P',lx,ly-34*dpr);
+      // bending moment diagram
+      const by=bh*.66,bmh=bh*.17,pk=by+bmh*M(a)/Mref;
+      bx.strokeStyle=muted;bx.lineWidth=dpr;bx.beginPath();bx.moveTo(m,by);bx.lineTo(m+L,by);bx.stroke();
+      bx.fillStyle=soft;bx.strokeStyle=acc;bx.lineWidth=1.6*dpr;bx.beginPath();bx.moveTo(m,by);bx.lineTo(lx,pk);bx.lineTo(m+L,by);bx.closePath();bx.fill();bx.stroke();
+      bx.setLineDash([3*dpr,3*dpr]);bx.strokeStyle=muted;bx.lineWidth=dpr;bx.beginPath();bx.moveTo(lx,ly+d);bx.lineTo(lx,pk);bx.stroke();bx.setLineDash([]);
+      bx.fillStyle=muted;bx.font=(11*dpr)+'px "IBM Plex Mono",monospace';bx.textAlign='right';bx.fillText('BMD',m-8*dpr,by+4*dpr);
+      const right=ar>.62;bx.textAlign=right?'right':'left';bx.fillStyle=fg;bx.font='500 '+(11.5*dpr)+'px "IBM Plex Mono",monospace';
+      bx.fillText('M = Pab/L = '+(ar*(1-ar)).toFixed(3)+' PL',lx+(right?-10:10)*dpr,pk+16*dpr);
+      bx.fillStyle=muted;bx.fillText('a = '+ar.toFixed(2)+' L',lx+(right?-10:10)*dpr,ly-18*dpr);
+    };
+    function loop(now){if(!running)return;bdraw((now-t0)/1000);requestAnimationFrame(loop);}
+    bsize();bdraw(Math.asin(0)/.55);
+    addEventListener('resize',()=>{bsize();if(!running)bdraw(0);});
+    if(!reduce){try{new IntersectionObserver(es=>es.forEach(e=>{const was=running;running=e.isIntersecting;if(running&&!was)requestAnimationFrame(loop);})).observe(bc);}catch(e){}}
+  }
+
+  function redraw(){paint();drawResid(40);drawMinis();bdraw(0);}
+  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redraw);}catch(e){}
+  try{new MutationObserver(redraw).observe(root,{attributes:true,attributeFilter:['data-theme']});}catch(e){}
+
+  /* ---------- scroll: progress bar, nav highlight, section accents ---------- */
+  const prog=$('progress');
+  function onScroll(){const m=root.scrollHeight-innerHeight;prog.style.setProperty('--p',m>0?(scrollY/m).toFixed(4):0);}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  try{
+    const links=[...document.querySelectorAll('.nav a')];
+    const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id));});},{rootMargin:'-35% 0px -55% 0px'});
+    document.querySelectorAll('main section[id]').forEach(s=>io.observe(s));
+    const io2=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('play');io2.unobserve(e.target);
+      countUp(e.target.querySelectorAll('[data-count]'),1200);});},{rootMargin:'0px 0px -12% 0px'});
+    document.querySelectorAll('.sh,.xg,.xl').forEach(el=>io2.observe(el));
+  }catch(e){}
+
+  /* ---------- always open at the top; section links scroll without changing the URL ---------- */
+  try{if('scrollRestoration' in history)history.scrollRestoration='manual';}catch(e){}
+  function toTop(){try{if(location.hash)history.replaceState(null,'',location.pathname+location.search);}catch(e){}window.scrollTo(0,0);}
+  toTop();addEventListener('load',toTop);
+  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',ev=>{
+    const id=a.getAttribute('href').slice(1),t=id==='top'?document.body:$(id);if(!t)return;ev.preventDefault();
+    if(id==='top')window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});else t.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  }));
+
+  /* ---------- project summaries (content from the resume only) ---------- */
+  const P=[
+    {kind:'scram',typ:'CFD · Supersonic combustion',cap:'Mach number · illustrative',
+     title:'Scramjet combustion efficiency with a modified strut injector',
+     obj:'Improve combustion efficiency in a scramjet by modifying the geometry of the strut injector.',
+     did:['Built 3D CFD models of modified strut injector geometries.','Evaluated aerodynamic flow behaviour around the strut under supersonic conditions.','Studied shock interactions and how they affect the flow field.','Compared fuel–air mixing between geometries as the route to better combustion efficiency.'],
+     method:'In a scramjet the air stays supersonic through the combustor, so fuel has only milliseconds to mix and burn. A strut injector sits in the flow; its shape sets the shock pattern and the vortices that drive mixing.',
+     setup:[['Analysis','3D CFD'],['Regime','Supersonic, reacting'],['Variable','Strut injector geometry'],['Outputs','Shocks, mixing, flow field'],['Goal','Higher combustion efficiency']],
+     rel:'ISRO (VSSC) internship, Feb–Apr 2026: analysed how strut geometry and fuel injection angle affect combustion and flow in a scramjet.',
+     tags:['3D CFD','Supersonic flow','Shock interaction','Fuel–air mixing']},
+    {kind:'bracket',typ:'FEA · Structural optimisation',cap:'Von Mises stress · illustrative',
+     title:'Structural optimisation of an antenna mounting unit',
+     obj:'Make an antenna mounting unit lighter without losing stiffness or structural integrity.',
+     did:['Built finite element models of the antenna mounting unit in ANSYS.','Ran structural analysis under multiple loading conditions.','Used Response Surface Optimisation (RSO) to search for a lightweight design.','Kept stiffness and structural integrity as requirements on the optimised design.'],
+     method:'Response Surface Optimisation runs a planned set of FE analyses, fits a surrogate model to the results, and then optimises on that surrogate. It finds good designs with far fewer full solves than searching directly.',
+     setup:[['Analysis','Static structural FEA'],['Software','ANSYS'],['Load cases','Multiple'],['Optimiser','Response Surface'],['Objective','Minimise weight'],['Requirement','Stiffness & integrity']],
+     rel:'DRDO (CABS) internship, Aug 2025 – Feb 2026: structural optimisation of an antenna mounting unit using Response Surface Optimisation in ANSYS.',
+     tags:['FEA','ANSYS','RSO','Lightweighting']},
+    {kind:'wing',typ:'FEA · Method comparison',cap:'Bending stress · illustrative',
+     title:'Direct vs Response Surface Optimisation for wing design',
+     obj:'Find out which optimisation method works better for minimising the mass of an aircraft wing that must still meet its structural constraints.',
+     did:['Set up a NACA 4415 aircraft wing under aerodynamic loading.','Ran Direct Optimisation to minimise wing mass.','Ran Response Surface Optimisation on the same problem.','Compared how the two methods performed while keeping the structural constraints satisfied.'],
+     method:'Direct Optimisation calls the full FE solver at every design point, which is accurate but costly. Response Surface Optimisation fits a surrogate to a smaller set of solves and optimises on that, which is faster but only as good as the fit.',
+     setup:[['Analysis','Structural FEA'],['Aerofoil','NACA 4415'],['Loading','Aerodynamic'],['Objective','Minimise mass'],['Compared','Direct vs RSO']],
+     rel:'',tags:['NACA 4415','Optimisation','Mass minimisation','Structural constraints']}
+  ];
+  const dlg=$('sum'),esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  let cur=0,lastCard=null,stopSum=null;
+  function fill(i){
+    cur=(i+P.length)%P.length;const p=P[cur];
+    $('sum-idx').textContent=(cur+1)+' / '+P.length;$('sum-kind').textContent=p.typ.split(' · ')[0];
+    $('sum-typ').textContent=p.typ;$('sum-title').textContent=p.title;$('sum-obj').textContent=p.obj;$('sum-method').textContent=p.method;$('sum-cap').textContent=p.cap;
+    $('sum-did').innerHTML=p.did.map(d=>'<li><span>'+esc(d)+'</span></li>').join('');
+    $('sum-setup').innerHTML=p.setup.map(([k,v])=>'<dt>'+esc(k)+'</dt><dd>'+esc(v)+'</dd>').join('');
+    $('sum-rel-wrap').hidden=!p.rel;$('sum-rel').textContent=p.rel;
+    $('sum-tags').innerHTML=p.tags.map(t=>'<span class="tag">'+esc(t)+'</span>').join('');
+    const c=$('sum-canvas');if(stopSum){stopSum();stopSum=null;}c.dataset.kind=p.kind;c._pts=null;renderMini(c,0);if(dlg.open)stopSum=animateMini(c);
+    dlg.scrollTop=0;
+  }
+  function openSum(i,card){lastCard=card||null;try{dlg.showModal();}catch(e){dlg.setAttribute('open','');}fill(i);}
+  function closeSum(){try{dlg.close();}catch(e){dlg.removeAttribute('open');}}
+  dlg.addEventListener('close',()=>{if(stopSum){stopSum();stopSum=null;}if(lastCard)lastCard.focus();});
+  document.querySelectorAll('.card[data-proj]').forEach(card=>{
+    card.addEventListener('click',()=>openSum(+card.dataset.proj,card));
+    card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openSum(+card.dataset.proj,card);}});
+  });
+  $('sum-close').onclick=closeSum;$('sum-prev').onclick=()=>fill(cur-1);$('sum-next').onclick=()=>fill(cur+1);
+  dlg.addEventListener('click',e=>{if(e.target===dlg)closeSum();});
+  dlg.addEventListener('keydown',e=>{if(e.key==='ArrowRight')fill(cur+1);if(e.key==='ArrowLeft')fill(cur-1);});
+
+  /* ---------- experience: filter, expand, timeline <-> list linking ---------- */
+  {
+    const xs=[...document.querySelectorAll('.x')];
+    const openX=(li,force)=>{const o=force!==undefined?force:!li.classList.contains('open');li.classList.toggle('open',o);li.querySelector('.x-h').setAttribute('aria-expanded',o);};
+    const hl=(id,on)=>{document.querySelectorAll('.xg [data-go="'+id+'"]').forEach(b=>b.classList.toggle('hl',on));const li=$('x-'+id);if(li)li.classList.toggle('hl',on);};
+    function setF(f){
+      document.querySelectorAll('.xf-b').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===f));
+      xs.forEach(li=>{const show=f==='all'||li.dataset.cat===f;
+        if(show){const was=li.hidden;li.hidden=false;if(was||f!=='all'){li.classList.remove('in');void li.offsetWidth;li.classList.add('in');}}else li.hidden=true;});
+      document.querySelectorAll('.xg-l,.xg-t').forEach(e=>e.classList.toggle('dim',f!=='all'&&e.dataset.cat!==f));
+    }
+    xs.forEach(li=>{const id=li.id.slice(2);
+      li.querySelector('.x-h').addEventListener('click',()=>openX(li));
+      li.addEventListener('pointerenter',()=>hl(id,true));li.addEventListener('pointerleave',()=>hl(id,false));});
+    document.querySelectorAll('.xg [data-go]').forEach(b=>{const id=b.dataset.go;
+      b.addEventListener('pointerenter',()=>hl(id,true));b.addEventListener('pointerleave',()=>hl(id,false));
+      b.addEventListener('click',()=>{const li=$('x-'+id);if(!li)return;if(li.hidden)setF('all');openX(li,true);
+        li.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});li.classList.remove('flash');void li.offsetWidth;li.classList.add('flash');});});
+    document.querySelectorAll('.xf-b').forEach(b=>b.addEventListener('click',()=>setF(b.dataset.f)));
+    document.querySelectorAll('.x-proj').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();openSum(+b.dataset.proj,b);}));
+    const first=$('x-isro');if(first)openX(first,true);
+  }
+
+  /* ---------- copy ---------- */
+  document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{
+    const el=$(b.dataset.copy),t=el.textContent;
+    const done=()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)};
+    const sel=()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected'};
+    try{navigator.clipboard.writeText(t).then(done,sel)}catch(e){sel()}
+  }));
+})();
+</script>
+</body>
+</html>
